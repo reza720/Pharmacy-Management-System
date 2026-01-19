@@ -20,7 +20,7 @@ It manages **items (drugs and medical devices), suppliers, stock, prescriptions,
 - **Supplier**: id, name, phone
 
 ### Dependent Objects
-- **Item (Drug / Medical Device)**: id, name, production_date, expiration_date, supplier_id, price
+- **Item (Drug / Medical Device)**: id, name, production_date, expiration_date, supplier_id, brand, price
 - **Stock**: id, item_id, quantity
 - **Prescription**: id, patient_name, problem, date
 - **Payment**: id, prescription_id, total_amount, date
@@ -37,3 +37,5 @@ It manages **items (drugs and medical devices), suppliers, stock, prescriptions,
 - Each **Prescription** has one **Payment**, and each Payment belongs to one Prescription
 - One **Supplier** has many **Purchases**, and each Purchase belongs to one Supplier
 - **Purchases** and **Items** have a many-to-many relationship, resolved by the **Purchase_Item** junction table
+
+
