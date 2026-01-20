@@ -22,13 +22,13 @@ It manages **items (drugs and medical devices), suppliers, stock, prescriptions,
 ### Dependent Objects
 - **Item (Drug / Medical Device)**: id, name, production_date, expiration_date, supplier_id, brand, price
 - **Stock**: id, item_id, quantity
-- **Prescription**: id, patient_name, problem, date
-- **Payment**: id, prescription_id, total_amount, date
-- **Purchase**: id, supplier_id, date, total_amount
+- **Prescription**: id, patient_name, problem, total_paid, date
+- **Payment**: id, prescription_id, total_paid, date
+- **Purchase**: id, supplier_id, date, total_paid
 
 ### Junction Tables
-- **Prescription_Item**: prescription_id, item_id, quantity, dosage
-- **Purchase_Item**: purchase_id, item_id, quantity, unit_price
+- **Prescription_Item**: prescription_id, item_id, quantity, unit_price, total_price
+- **Purchase_Item**: purchase_id, item_id, quantity, unit_price, total_price
 
 ## Relationships of Objects
 - One **Supplier** has many **Items**, and each Item belongs to one Supplier
@@ -39,3 +39,4 @@ It manages **items (drugs and medical devices), suppliers, stock, prescriptions,
 - **Purchases** and **Items** have a many-to-many relationship, resolved by the **Purchase_Item** junction table
 
 
+## Business Rules:
