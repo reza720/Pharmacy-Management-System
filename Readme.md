@@ -40,3 +40,32 @@ It manages **items (drugs and medical devices), suppliers, stock, prescriptions,
 
 
 ## Business Rules:
+**Item**
+- check if already exist for create and update
+- expiration_date should be at least 10 days before creation day
+- read all
+- read by id
+- read by name
+- read by brand
+- read by price
+- read by supplier
+- read by production_date
+- read by expiration_date
+- delete by id
+- if expiration_date meet auto delete
+- if deleted its **stock** deleted auto
+
+**Stock**
+- check if already exist for create and update
+- read by id
+- read by item 
+- read by quantity
+- not deleted until its **item** is deleted
+
+**Supplier**
+- check if already exist for create and update
+- read by id
+- read by name
+- detele by id
+- delete by name
+

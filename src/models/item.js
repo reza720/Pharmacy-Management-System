@@ -3,7 +3,7 @@ const {DataTypes}=require("sequelize");
 
 const Item=sequelize.define("Item",{
     id:{type:DataTypes.INTEGER, autoIncrement:true,  primaryKey:true},
-    name:{type:DataTypes.STRING, allowNull:false, unique:true},
+    name:{type:DataTypes.STRING, allowNull:false},
     production_date:{type:DataTypes.DATEONLY, allowNull:false},
     expiration_date:{type:DataTypes.DATEONLY, allowNull:false},
     brand:{type:DataTypes.STRING, allowNull:false},
