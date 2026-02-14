@@ -1,71 +1,47 @@
 # Pharmacy Management System
+This is a simple Pharmacy Management System. 
 
-This is a simple **Pharmacy Management System** developed using **Express.js**, **Sequelize**, and **MySQL**. The project follows a **layered architecture** and is intended for **internal use by pharmacy staff only**.  
-It manages **items (drugs and medical devices), suppliers, stock, prescriptions, purchases, and payments**.
-
-## Actors
-- Pharmacy Staff
-
-## Use Cases
-- Manage Items (Drugs / Medical Devices)
-- Manage Suppliers
-- Manage Stock
-- Manage Prescriptions
-- Manage Payments
-- Manage Purchases
-
-## Objects & Their Columns
-
-### Independent Objects
-- **Supplier**: id, name, phone
-
-### Dependent Objects
-- **Item (Drug / Medical Device)**: id, name, production_date, expiration_date, supplier_id, brand, price
-- **Stock**: id, item_id, quantity
-- **Prescription**: id, patient_name, problem, total_paid, date
-- **Payment**: id, prescription_id, total_paid, date
-- **Purchase**: id, supplier_id, date, total_paid
-
-### Junction Tables
-- **Prescription_Item**: prescription_id, item_id, quantity, unit_price, total_price
-- **Purchase_Item**: purchase_id, item_id, quantity, unit_price, total_price
-
-## Relationships of Objects
-- One **Supplier** has many **Items**, and each Item belongs to one Supplier
-- Each **Item** has one **Stock**, and each Stock belongs to one Item
-- **Prescriptions** and **Items** have a many-to-many relationship, resolved by the **Prescription_Item** junction table
-- Each **Prescription** has one **Payment**, and each Payment belongs to one Prescription
-- One **Supplier** has many **Purchases**, and each Purchase belongs to one Supplier
-- **Purchases** and **Items** have a many-to-many relationship, resolved by the **Purchase_Item** junction table
-
+## Main Workflows
+- Items are purchased from Suppliers and added to stock
+- Customers come with or without prescription and their purchase become bills
+- They pay for each bill
 
 ## Business Rules:
-**Item**
-- check if already exist for create and update
-- expiration_date should be at least 10 days before creation day
-- read all
-- read by id
-- read by name
-- read by brand
-- read by price
-- read by supplier
-- read by production_date
-- read by expiration_date
-- delete by id
-- if expiration_date meet auto delete
-- if deleted its **stock** deleted auto
+- Stocks works auto, it become less by items soled, and more by each purchase
+- if item is removed its stock is auto removed
+- Item can be updated
+- If item is expired can no be added to the bills
+- suppliers can not be removed once a purchase happens, but can be updated
+- purchases can not be removed or updated
+- prescription images are stored, and can noe be deleted or updated
+- Payement are stored and can not be removed or updated
 
-**Stock**
-- check if already exist for create and update
-- read by id
-- read by item 
-- read by quantity
-- not deleted until its **item** is deleted
+## Data Model:
+### Entities, Attributes, Constraints
+- **Supplier**: id(pk, auto), name(not null, not empty,valid human name), phone(not null, not empty,valid AFG phone #), address(not null, not empty)
+- **Item**: id(pk, auto), name(not null, not empty), production_date(not null, valid date, not future), expiration_date(not null, valid date, after production), supplier_id(fk,not null), brand(not null, not empty), price(not null, not negative), isExpired(not null)
+- **Purchase**: id(pk, auto), supplier_id(not null, fk), date(not null, valid date), total_paid(not null, auto by purchase_items table)
+- **Purchase_Items**: id(pk, auto), purchase_id(fk, not null), item_id(not null), quantity(not null, not negative), unit_price(not null, not negative), total_price(not null, auto by quantity * unit_price)
+- **Stock**: item_id(pk, fk), quantity(not null, not negative)
+- **Bill**: id(pk, auto), patient_name(not null, not empty, valid human name), total_paid(not null, auto by bill_items table)
+- **Bill_Items**: id(pk, auto), item_name(not null, not empty), quantity(not null, not negative), unit_price(not null, not negative), total_price(not null, auto by quantity * unit_price)
+- **Payment**: bill_id(pk, fk), amount(not null, auto by bill table)
+- **Prescription**: id(pk, auto), image_url(not null,not empty)
 
-**Supplier**
-- check if already exist for create and update
-- read by id
-- read by name
-- detele by id
-- delete by name
+### Relationships
+- **Supplier** -> **Items** (1:n)
+- **Supplier** -> **Purchases** (1:n)
+- **Purchases** <-> **Items** (n:m), need a junction table: **Purchase_Item**
+- **Purchases** -> **Purchase_Item** (1:n)
 
+- **Item** -> **Stock** (1:1)
+
+- **Bill** <-> **Items** (n:m), need a junction table: **Bill_Items**
+- **Bill** -> **Bill_Items** (1:n)
+- **Bill** -> **Payment** (1:1)
+
+
+
+
+
+ 

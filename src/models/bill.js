@@ -1,11 +1,12 @@
 const sequelize=require("../config/database");
 const {DataTypes}=require("sequelize");
 
-const Prescription=sequelize.define("Prescription",{
+const Bill=sequelize.define("Bill",{
     id:{type:DataTypes.INTEGER, autoIncrement:true, primaryKey:true},
-    image_url:{type:DataTypes.TEXT, allowNull:false}
+    patient_name:{type:DataTypes.STRING, allowNull:false},
+    total_paid:{type:DataTypes.DECIMAL(10,2), allowNull:false}
 },{
     timestamps:true
 });
 
-module.exports=Prescription;
+module.exports=Bill;
